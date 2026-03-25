@@ -1,1392 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dotsss / Dotsss Children's Museum</title>
-	<style>
-		:root {
-			--green-900: #0c6b34;
-			--green-850: #116f39;
-			--green-800: #16743d;
-			--green-700: #1e8246;
-			--green-200: #dfeedd;
-			--mint-100: #f3f7ec;
-			--cream: #fbfaf4;
-			--text: #104726;
-			--muted: #5c6c60;
-			--white: #ffffff;
-			--shadow: 0 24px 60px rgba(9, 55, 29, 0.18);
-			--radius-lg: 28px;
-			--radius-md: 20px;
-			--radius-sm: 12px;
-			--container: min(1200px, calc(100vw - 80px));
-			--header-h: 64px;
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
-		html {
-			scroll-behavior: smooth;
-		}
-
-		body {
-			margin: 0;
-			font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-			color: var(--text);
-			background: linear-gradient(180deg, #eff4ea 0%, #f7f8f2 100%);
-		}
-
-		a {
-			color: inherit;
-			text-decoration: none;
-		}
-
-		button {
-			font: inherit;
-		}
-
-		.site-header {
-			position: sticky;
-			top: 0;
-			z-index: 30;
-			height: var(--header-h);
-			background: var(--green-900);
-			transition: box-shadow 0.25s ease, background 0.25s ease;
-		}
-
-		.site-header.is-scrolled {
-			box-shadow: 0 14px 28px rgba(7, 42, 22, 0.24);
-			background: rgba(12, 107, 52, 0.96);
-			backdrop-filter: blur(10px);
-		}
-
-		.header-inner {
-			width: var(--container);
-			height: 100%;
-			margin: 0 auto;
-			display: grid;
-			grid-template-columns: auto 1fr auto;
-			align-items: center;
-			gap: 28px;
-		}
-
-		.brand {
-			font-size: 1.15rem;
-			font-weight: 700;
-			letter-spacing: 0.04em;
-			color: var(--white);
-			white-space: nowrap;
-		}
-
-		.menu-toggle {
-			display: none;
-			width: 44px;
-			height: 44px;
-			border: 0;
-			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.12);
-			color: var(--white);
-			place-items: center;
-			cursor: pointer;
-		}
-
-		.menu-toggle span,
-		.menu-toggle::before,
-		.menu-toggle::after {
-			content: "";
-			display: block;
-			width: 18px;
-			height: 2px;
-			border-radius: 999px;
-			background: currentColor;
-			transition: transform 0.25s ease, opacity 0.25s ease;
-		}
-
-		.menu-toggle::before {
-			transform: translateY(-6px);
-		}
-
-		.menu-toggle::after {
-			transform: translateY(6px);
-			margin-top: -2px;
-		}
-
-		.site-header.menu-open .menu-toggle span {
-			opacity: 0;
-		}
-
-		.site-header.menu-open .menu-toggle::before {
-			transform: translateY(2px) rotate(45deg);
-		}
-
-		.site-header.menu-open .menu-toggle::after {
-			transform: translateY(0) rotate(-45deg);
-		}
-
-		.site-nav {
-			justify-self: center;
-		}
-
-		.site-nav ul {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			align-items: center;
-			gap: 24px;
-			color: rgba(255, 255, 255, 0.92);
-			font-size: 0.68rem;
-			letter-spacing: 0.14em;
-			text-transform: uppercase;
-		}
-
-		.site-nav a {
-			opacity: 0.92;
-			transition: opacity 0.2s ease;
-		}
-
-		.site-nav a:hover {
-			opacity: 1;
-		}
-
-		.header-tools {
-			display: flex;
-			align-items: center;
-			gap: 14px;
-			color: var(--white);
-		}
-
-		.icon-btn {
-			width: 18px;
-			height: 18px;
-			opacity: 0.92;
-		}
-
-		main {
-			overflow: hidden;
-		}
-
-		.hero {
-			position: relative;
-			min-height: 720px;
-			display: grid;
-			place-items: center;
-			isolation: isolate;
-			background:
-				linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.18) 100%),
-				radial-gradient(circle at 18% 24%, rgba(73, 175, 113, 0.36), transparent 21%),
-				radial-gradient(circle at 78% 18%, rgba(255, 214, 108, 0.22), transparent 18%),
-				linear-gradient(180deg, #aeb5a8 0%, #eef0eb 52%, #f6f5f1 100%);
-		}
-
-		.hero::after {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.42) 100%);
-			z-index: -1;
-		}
-
-		.hero-scene {
-			position: absolute;
-			inset: 0;
-			overflow: hidden;
-		}
-
-		.hero-scene .window {
-			position: absolute;
-			top: 40px;
-			right: 4%;
-			width: 36%;
-			height: 46%;
-			border-radius: 0 0 12px 12px;
-			background:
-				repeating-linear-gradient(90deg, rgba(120, 128, 126, 0.6) 0 2px, transparent 2px 24px),
-				linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(177, 182, 180, 0.14));
-			box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-		}
-
-		.hero-scene .ceiling-pipe {
-			position: absolute;
-			top: 26px;
-			left: 42%;
-			width: 140px;
-			height: 28px;
-			border-radius: 999px;
-			background: linear-gradient(180deg, #edf0ee, #c9cdcb);
-			box-shadow: 40px 10px 0 0 rgba(233, 236, 234, 0.92);
-			opacity: 0.9;
-		}
-
-		.hero-scene .shelf {
-			position: absolute;
-			border-radius: 12px;
-			background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(228, 231, 228, 0.9));
-			box-shadow: inset 0 0 0 2px rgba(177, 184, 177, 0.34);
-		}
-
-		.hero-scene .shelf::before {
-			content: "";
-			position: absolute;
-			inset: 12px;
-			background:
-				repeating-linear-gradient(180deg, transparent 0 54px, rgba(137, 143, 140, 0.32) 54px 57px),
-				repeating-linear-gradient(90deg, transparent 0 78px, rgba(137, 143, 140, 0.26) 78px 81px);
-			border-radius: 8px;
-		}
-
-		.hero-scene .shelf.left {
-			top: 56px;
-			left: 10%;
-			width: 30%;
-			height: 46%;
-		}
-
-		.hero-scene .shelf.right {
-			top: 84px;
-			right: 11%;
-			width: 22%;
-			height: 32%;
-		}
-
-		.hero-scene .product-dots,
-		.hero-scene .product-dots::before,
-		.hero-scene .product-dots::after {
-			position: absolute;
-			content: "";
-			border-radius: 10px;
-			filter: saturate(1.1);
-		}
-
-		.hero-scene .product-dots {
-			left: 12%;
-			top: 78px;
-			width: 24%;
-			height: 180px;
-			background:
-				radial-gradient(circle at 14px 14px, #f3ca59 0 8px, transparent 9px),
-				radial-gradient(circle at 64px 18px, #db7d63 0 10px, transparent 11px),
-				radial-gradient(circle at 108px 14px, #6db6d6 0 10px, transparent 11px),
-				radial-gradient(circle at 158px 18px, #ee9db8 0 10px, transparent 11px),
-				radial-gradient(circle at 24px 72px, #81b956 0 10px, transparent 11px),
-				radial-gradient(circle at 88px 68px, #7a8ddd 0 12px, transparent 13px),
-				radial-gradient(circle at 154px 74px, #d77663 0 10px, transparent 11px),
-				radial-gradient(circle at 20px 132px, #6db6d6 0 10px, transparent 11px),
-				radial-gradient(circle at 80px 134px, #f0b451 0 12px, transparent 13px),
-				radial-gradient(circle at 146px 132px, #89c06b 0 10px, transparent 11px);
-			opacity: 0.85;
-		}
-
-		.hero-scene .island {
-			position: absolute;
-			left: 50%;
-			bottom: 130px;
-			width: 430px;
-			height: 180px;
-			transform: translateX(-50%);
-			border-radius: 50% 50% 26px 26px;
-			background:
-				linear-gradient(180deg, #d8deca 0 28px, #b9c34d 28px 64px, #e4e7dc 64px 100%),
-				linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(219, 223, 214, 0.95));
-			box-shadow: 0 16px 38px rgba(90, 104, 87, 0.22);
-		}
-
-		.hero-scene .toy-stack {
-			position: absolute;
-			left: 50%;
-			bottom: 205px;
-			width: 120px;
-			height: 96px;
-			transform: translateX(-50%);
-			background:
-				linear-gradient(180deg, transparent 0 18px, #efb350 18px 34px, transparent 34px 38px, #6eaed8 38px 56px, transparent 56px 60px, #91bf5f 60px 80px, transparent 80px),
-				linear-gradient(90deg, transparent 0 16px, #ce694d 16px 38px, transparent 38px 48px, #f2d367 48px 74px, transparent 74px 84px, #4f93c2 84px 108px, transparent 108px);
-		}
-
-		.hero-scene .checkout {
-			position: absolute;
-			left: 25%;
-			bottom: 112px;
-			width: 210px;
-			height: 132px;
-			border-radius: 18px 18px 10px 10px;
-			background:
-				linear-gradient(180deg, #eae8df 0 26px, #d16452 26px 34px, #f7f3e4 34px 100%),
-				linear-gradient(180deg, #fefefe, #ecebdd);
-			box-shadow: 0 14px 28px rgba(87, 89, 71, 0.15);
-		}
-
-		.hero-scene .checkout::before {
-			content: "";
-			position: absolute;
-			left: 14px;
-			right: 14px;
-			bottom: 12px;
-			height: 56px;
-			border-radius: 8px;
-			background:
-				repeating-linear-gradient(90deg, #adcf7e 0 22px, #e3cc62 22px 44px, #d97b61 44px 66px, #71b0d0 66px 88px),
-				linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.08));
-		}
-
-		.hero-scene .plush-figure {
-			position: absolute;
-			left: -10px;
-			bottom: 96px;
-			width: 106px;
-			height: 190px;
-			border-radius: 50px;
-			background:
-				radial-gradient(circle at 26px 58px, #f6ca4d 0 10px, transparent 11px),
-				radial-gradient(circle at 72px 48px, #f4a1bf 0 10px, transparent 11px),
-				radial-gradient(circle at 58px 90px, #87c05a 0 11px, transparent 12px),
-				linear-gradient(180deg, #2e8f60 0%, #206f48 100%);
-			box-shadow: 0 16px 32px rgba(28, 72, 49, 0.26);
-			transform: rotate(2deg);
-		}
-
-		.hero-scene .plush-figure::before,
-		.hero-scene .plush-figure::after {
-			content: "";
-			position: absolute;
-			background: inherit;
-			border-radius: 999px;
-		}
-
-		.hero-scene .plush-figure::before {
-			width: 42px;
-			height: 42px;
-			left: 14px;
-			top: 118px;
-			transform: rotate(20deg);
-		}
-
-		.hero-scene .plush-figure::after {
-			width: 42px;
-			height: 42px;
-			right: 12px;
-			top: 126px;
-			transform: rotate(-18deg);
-		}
-
-		.hero-scene .family {
-			position: absolute;
-			right: 24%;
-			bottom: 108px;
-			width: 176px;
-			height: 210px;
-		}
-
-		.hero-scene .adult,
-		.hero-scene .child {
-			position: absolute;
-			bottom: 0;
-			border-radius: 999px 999px 18px 18px;
-			background: linear-gradient(180deg, rgba(140, 100, 80, 0.94), rgba(96, 60, 49, 0.98));
-		}
-
-		.hero-scene .adult {
-			right: 56px;
-			width: 58px;
-			height: 168px;
-		}
-
-		.hero-scene .child {
-			right: 0;
-			width: 46px;
-			height: 116px;
-			background: linear-gradient(180deg, rgba(167, 122, 88, 0.94), rgba(113, 80, 56, 1));
-		}
-
-		.hero-scene .adult::before,
-		.hero-scene .child::before {
-			content: "";
-			position: absolute;
-			left: 50%;
-			top: -22px;
-			width: 40px;
-			height: 40px;
-			border-radius: 50%;
-			transform: translateX(-50%);
-			background: #d7b39c;
-		}
-
-		.hero-scene .child::before {
-			width: 34px;
-			height: 34px;
-			top: -18px;
-		}
-
-		.hero-scene .adult::after,
-		.hero-scene .child::after {
-			content: "";
-			position: absolute;
-			inset: 28% 8px 0;
-			border-radius: 16px;
-			background: linear-gradient(180deg, #d6cec0, #5d7b48 65%, #7f6348 65%);
-		}
-
-		.hero-scene .child::after {
-			background: linear-gradient(180deg, #9ab4cb, #769e62 62%, #7f6348 62%);
-		}
-
-		.hero-content {
-			position: relative;
-			z-index: 2;
-			text-align: center;
-			width: min(760px, calc(100vw - 80px));
-			color: var(--white);
-			text-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-			transform: translateY(-10px);
-		}
-
-		.hero-content h1 {
-			margin: 0;
-			font-size: clamp(2.5rem, 4vw, 4.2rem);
-			line-height: 1.02;
-			font-weight: 700;
-		}
-
-		.hero-content p {
-			margin: 26px auto 0;
-			max-width: 700px;
-			font-size: clamp(1rem, 1.45vw, 1.5rem);
-			line-height: 1.35;
-		}
-
-		.about {
-			position: relative;
-			min-height: 520px;
-			background: var(--green-900);
-			color: var(--white);
-			display: flex;
-			align-items: center;
-			isolation: isolate;
-		}
-
-		.about::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background:
-				linear-gradient(0deg, rgba(12, 107, 52, 0.86), rgba(12, 107, 52, 0.88)),
-				radial-gradient(circle at 20% 24%, rgba(255, 255, 255, 0.06), transparent 20%),
-				linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-			z-index: -2;
-		}
-
-		.about-architecture {
-			position: absolute;
-			inset: 0;
-			z-index: -1;
-			opacity: 0.6;
-			overflow: hidden;
-		}
-
-		.about-architecture .arc {
-			position: absolute;
-			inset: 12% 0 auto 4%;
-			width: 72%;
-			height: 52%;
-			border-top: 3px solid rgba(220, 242, 224, 0.22);
-			border-left: 3px solid rgba(220, 242, 224, 0.12);
-			transform: skew(-18deg);
-		}
-
-		.about-architecture .steps {
-			position: absolute;
-			left: 46%;
-			bottom: 8%;
-			width: 240px;
-			height: 170px;
-			background:
-				linear-gradient(180deg, transparent 0 18px, rgba(225, 241, 226, 0.28) 18px 22px, transparent 22px 48px, rgba(225, 241, 226, 0.28) 48px 52px, transparent 52px 86px, rgba(225, 241, 226, 0.28) 86px 90px, transparent 90px 130px, rgba(225, 241, 226, 0.28) 130px 134px, transparent 134px),
-				linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
-			clip-path: polygon(12% 100%, 88% 100%, 68% 0, 32% 0);
-		}
-
-		.about-architecture .pillars,
-		.about-architecture .pillars::before,
-		.about-architecture .pillars::after {
-			content: "";
-			position: absolute;
-			bottom: 18%;
-			width: 24px;
-			height: 150px;
-			border-radius: 12px 12px 0 0;
-			background: linear-gradient(180deg, rgba(232, 244, 233, 0.3), rgba(232, 244, 233, 0.1));
-		}
-
-		.about-architecture .pillars {
-			left: 18%;
-		}
-
-		.about-architecture .pillars::before {
-			left: 190px;
-			bottom: 0;
-		}
-
-		.about-architecture .pillars::after {
-			left: 420px;
-			bottom: 0;
-		}
-
-		.about-inner {
-			width: var(--container);
-			margin: 0 auto;
-			padding: 80px 0;
-			display: flex;
-			justify-content: center;
-		}
-
-		.about-copy {
-			width: min(620px, 100%);
-		}
-
-		.eyebrow {
-			display: inline-block;
-			margin-bottom: 16px;
-			padding: 8px 14px;
-			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.08);
-			font-size: 0.8rem;
-			letter-spacing: 0.14em;
-			text-transform: uppercase;
-		}
-
-		.about-copy h2,
-		.solutions h2 {
-			margin: 0 0 22px;
-			font-size: clamp(2rem, 3vw, 3rem);
-			line-height: 1.12;
-		}
-
-		.about-copy p {
-			margin: 0 0 18px;
-			font-size: 1rem;
-			line-height: 1.8;
-			color: rgba(245, 250, 245, 0.92);
-		}
-
-		.solutions {
-			background: #fbfbf8;
-			padding: 76px 0 92px;
-		}
-
-		.solutions-inner {
-			width: var(--container);
-			margin: 0 auto;
-		}
-
-		.solutions h2 {
-			color: var(--green-850);
-			margin-bottom: 34px;
-		}
-
-		.card-grid {
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 26px;
-		}
-
-		.solution-card {
-			text-align: center;
-			opacity: 0;
-			transform: translateY(30px);
-			transition: transform 0.55s ease, opacity 0.55s ease;
-		}
-
-		.solution-card.is-visible {
-			opacity: 1;
-			transform: translateY(0);
-		}
-
-		.card-visual {
-			position: relative;
-			aspect-ratio: 0.93 / 1;
-			border-radius: 6px;
-			overflow: hidden;
-			box-shadow: 0 16px 28px rgba(34, 73, 43, 0.12);
-			margin-bottom: 18px;
-		}
-
-		.visual-merch {
-			background: linear-gradient(180deg, #ddecba 0%, #eef8d7 100%);
-		}
-
-		.visual-merch .plush-body {
-			position: absolute;
-			top: 42px;
-			left: 96px;
-			width: 86px;
-			height: 124px;
-			border-radius: 45px;
-			background: linear-gradient(180deg, #5aaa45, #3f8a33);
-			box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.08);
-		}
-
-		.visual-merch .plush-body::before,
-		.visual-merch .plush-body::after {
-			content: "";
-			position: absolute;
-			border-radius: 999px;
-			background: inherit;
-		}
-
-		.visual-merch .plush-body::before {
-			width: 40px;
-			height: 40px;
-			left: -10px;
-			top: 48px;
-		}
-
-		.visual-merch .plush-body::after {
-			width: 40px;
-			height: 40px;
-			right: -10px;
-			top: 52px;
-		}
-
-		.visual-merch .plush-face {
-			position: absolute;
-			top: 28px;
-			left: 114px;
-			width: 52px;
-			height: 52px;
-			border-radius: 50%;
-			background: linear-gradient(180deg, #7fd260, #53aa42);
-		}
-
-		.visual-merch .lanyard,
-		.visual-merch .lanyard::before,
-		.visual-merch .lanyard::after {
-			position: absolute;
-			border-radius: 999px;
-			content: "";
-		}
-
-		.visual-merch .lanyard {
-			top: 18px;
-			left: 18px;
-			width: 118px;
-			height: 20px;
-			transform: rotate(16deg);
-			border: 8px solid #4ba0d8;
-			border-right-color: transparent;
-			border-bottom-color: transparent;
-		}
-
-		.visual-merch .lanyard::before {
-			top: 46px;
-			left: 74px;
-			width: 42px;
-			height: 42px;
-			background: #d8c17d;
-			box-shadow: inset 0 0 0 6px #eccf6c;
-		}
-
-		.visual-merch .lanyard::after {
-			top: 92px;
-			left: 168px;
-			width: 54px;
-			height: 54px;
-			background: #e7d9a2;
-			box-shadow: inset 0 0 0 7px #e4b554;
-		}
-
-		.visual-merch .sock,
-		.visual-merch .sock::before {
-			position: absolute;
-			content: "";
-			width: 38px;
-			height: 90px;
-			border-radius: 0 0 14px 14px;
-			background: linear-gradient(180deg, #ef8f33 0 18px, #ec9c38 18px 72px, #f3d655 72px 100%);
-			bottom: 16px;
-		}
-
-		.visual-merch .sock {
-			left: 154px;
-			transform: rotate(4deg);
-		}
-
-		.visual-merch .sock::before {
-			left: 56px;
-			top: 6px;
-			transform: rotate(-6deg);
-		}
-
-		.visual-merch .patches {
-			position: absolute;
-			left: 14px;
-			bottom: 10px;
-			width: 110px;
-			height: 90px;
-			background:
-				radial-gradient(circle at 18px 20px, #f6f2df 0 18px, transparent 19px),
-				radial-gradient(circle at 62px 36px, #efe6bc 0 20px, transparent 21px),
-				radial-gradient(circle at 26px 68px, #f2e4aa 0 22px, transparent 23px),
-				radial-gradient(circle at 86px 70px, #efe9cf 0 18px, transparent 19px);
-		}
-
-		.visual-ready {
-			background: linear-gradient(180deg, #f6e9b8 0%, #f8eccc 100%);
-		}
-
-		.visual-ready .confetti {
-			position: absolute;
-			inset: 0;
-			background:
-				radial-gradient(circle at 10% 14%, #6ab054 0 3px, transparent 4px),
-				radial-gradient(circle at 22% 22%, #d86f6a 0 3px, transparent 4px),
-				radial-gradient(circle at 32% 12%, #5ea4d4 0 3px, transparent 4px),
-				radial-gradient(circle at 78% 16%, #e9bd58 0 3px, transparent 4px),
-				radial-gradient(circle at 68% 28%, #80bc6d 0 3px, transparent 4px),
-				radial-gradient(circle at 88% 26%, #d67360 0 3px, transparent 4px),
-				radial-gradient(circle at 12% 76%, #6caed8 0 3px, transparent 4px),
-				radial-gradient(circle at 28% 88%, #df8a4c 0 3px, transparent 4px),
-				radial-gradient(circle at 44% 78%, #8cbc62 0 3px, transparent 4px),
-				radial-gradient(circle at 76% 84%, #7a8ed1 0 3px, transparent 4px),
-				radial-gradient(circle at 92% 72%, #db7ca2 0 3px, transparent 4px);
-		}
-
-		.visual-ready .board {
-			position: absolute;
-			inset: 52px 34px 42px;
-			border-radius: 8px;
-			background: #c49b58;
-			box-shadow: inset 0 0 0 10px #f8ddb2, 0 12px 24px rgba(119, 86, 34, 0.18);
-		}
-
-		.visual-ready .board::before {
-			content: "";
-			position: absolute;
-			inset: 18px;
-			background:
-				linear-gradient(90deg, transparent 0 18%, #c8ec92 18% 38%, transparent 38% 42%, #f49b77 42% 63%, transparent 63% 68%, #f2d560 68% 92%, transparent 92%),
-				linear-gradient(180deg, transparent 0 22%, #69b75f 22% 34%, transparent 34% 38%, #6eaad8 38% 50%, transparent 50% 56%, #ef9ebd 56% 76%, transparent 76% 82%, #77c57f 82% 100%);
-			opacity: 0.82;
-		}
-
-		.visual-ready .gift-row {
-			position: absolute;
-			left: 54px;
-			right: 54px;
-			bottom: 32px;
-			height: 82px;
-			background:
-				linear-gradient(90deg, #ef8d73 0 20%, transparent 20% 24%, #f4d967 24% 48%, transparent 48% 52%, #7fb9d9 52% 76%, transparent 76% 80%, #9fca71 80% 100%);
-		}
-
-		.visual-ready .gift-row::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background:
-				linear-gradient(180deg, transparent 0 70%, rgba(255, 255, 255, 0.28) 70% 100%),
-				repeating-linear-gradient(90deg, transparent 0 48px, rgba(255, 255, 255, 0.45) 48px 54px);
-		}
-
-		.visual-shelf {
-			background: linear-gradient(180deg, #f7f1e7 0%, #f4eadb 100%);
-		}
-
-		.visual-shelf .rack {
-			position: absolute;
-			left: 22px;
-			right: 22px;
-			bottom: 24px;
-			top: 52px;
-			border-left: 8px solid #d9b271;
-			border-right: 8px solid #d9b271;
-			background:
-				linear-gradient(180deg, transparent 0 28%, #9bbc62 28% 31%, transparent 31% 60%, #9bbc62 60% 63%, transparent 63%),
-				linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
-		}
-
-		.visual-shelf .plush-row {
-			position: absolute;
-			left: 30px;
-			right: 30px;
-			top: 32px;
-			height: 82px;
-			background:
-				radial-gradient(circle at 10% 60%, #d8c4b9 0 24px, transparent 25px),
-				radial-gradient(circle at 24% 56%, #eed7c9 0 24px, transparent 25px),
-				radial-gradient(circle at 38% 58%, #d6c1b7 0 24px, transparent 25px),
-				radial-gradient(circle at 52% 60%, #f1d8cc 0 24px, transparent 25px),
-				radial-gradient(circle at 66% 58%, #d4c6bd 0 24px, transparent 25px),
-				radial-gradient(circle at 80% 60%, #efddd1 0 24px, transparent 25px),
-				radial-gradient(circle at 94% 60%, #d9c7bf 0 24px, transparent 25px);
-		}
-
-		.visual-shelf .toy-row {
-			position: absolute;
-			left: 36px;
-			right: 36px;
-			bottom: 44px;
-			height: 88px;
-			background:
-				linear-gradient(90deg, #6ead51 0 12%, transparent 12% 16%, #f2d25e 16% 28%, transparent 28% 32%, #d46f5f 32% 44%, transparent 44% 48%, #78afd5 48% 60%, transparent 60% 64%, #8dbd61 64% 76%, transparent 76% 80%, #c68958 80% 100%);
-			border-radius: 6px;
-		}
-
-		.visual-shelf .toy-row::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			background:
-				linear-gradient(180deg, transparent 0 42%, rgba(255, 255, 255, 0.2) 42% 100%),
-				repeating-linear-gradient(90deg, transparent 0 36px, rgba(255, 255, 255, 0.36) 36px 40px);
-		}
-
-		.solution-card h3 {
-			margin: 0 0 10px;
-			font-size: 1.18rem;
-			color: var(--green-850);
-		}
-
-		.solution-card p {
-			margin: 0 auto;
-			max-width: 280px;
-			color: var(--muted);
-			line-height: 1.65;
-			font-size: 0.95rem;
-		}
-
-		.site-footer {
-			background: var(--green-900);
-			color: rgba(255, 255, 255, 0.94);
-			padding: 54px 0 22px;
-			position: relative;
-		}
-
-		.footer-inner {
-			width: var(--container);
-			margin: 0 auto;
-			display: grid;
-			grid-template-columns: 1.15fr 1fr 0.9fr 1.3fr;
-			gap: 34px;
-			align-items: start;
-		}
-
-		.footer-col h4 {
-			margin: 0 0 18px;
-			font-size: 1.1rem;
-		}
-
-		.footer-col p,
-		.footer-col li,
-		.footer-col a,
-		.footer-col label {
-			font-size: 0.95rem;
-			line-height: 1.8;
-			color: rgba(255, 255, 255, 0.86);
-		}
-
-		.footer-list {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-		}
-
-		.contact-line {
-			display: flex;
-			gap: 10px;
-			align-items: flex-start;
-			margin-bottom: 8px;
-		}
-
-		.subscribe-row {
-			display: flex;
-			margin: 14px 0 16px;
-			border: 1px solid rgba(255, 255, 255, 0.3);
-			border-radius: 4px;
-			overflow: hidden;
-			background: rgba(255, 255, 255, 0.06);
-		}
-
-		.subscribe-row input {
-			flex: 1;
-			min-width: 0;
-			border: 0;
-			padding: 12px 14px;
-			color: var(--white);
-			background: transparent;
-			outline: none;
-		}
-
-		.subscribe-row input::placeholder {
-			color: rgba(255, 255, 255, 0.5);
-		}
-
-		.subscribe-row button {
-			border: 0;
-			padding: 0 18px;
-			background: #f8f6ef;
-			color: var(--green-900);
-			cursor: pointer;
-		}
-
-		.footer-bottom {
-			width: var(--container);
-			margin: 26px auto 0;
-			padding-top: 18px;
-			border-top: 1px solid rgba(255, 255, 255, 0.12);
-			display: flex;
-			justify-content: center;
-			gap: 18px;
-			font-size: 0.78rem;
-			color: rgba(255, 255, 255, 0.68);
-		}
-
-		.back-to-top {
-			position: absolute;
-			right: 18px;
-			bottom: 18px;
-			width: 32px;
-			height: 32px;
-			display: grid;
-			place-items: center;
-			border: 1px solid rgba(255, 255, 255, 0.28);
-			border-radius: 999px;
-			color: var(--white);
-			background: rgba(255, 255, 255, 0.04);
-		}
-
-		@media (max-width: 1100px) {
-			:root {
-				--container: min(100vw - 40px, 1200px);
-			}
-
-			.card-grid,
-			.footer-inner {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-			}
-
-			.footer-inner > :last-child {
-				grid-column: 1 / -1;
-			}
-		}
-
-		@media (max-width: 840px) {
-			.header-inner {
-				grid-template-columns: auto auto auto;
-			}
-
-			.menu-toggle {
-				display: grid;
-				justify-self: center;
-			}
-
-			.site-nav {
-				position: absolute;
-				top: 100%;
-				left: 20px;
-				right: 20px;
-				background: rgba(11, 91, 45, 0.98);
-				border-radius: 18px;
-				box-shadow: 0 18px 36px rgba(8, 44, 23, 0.22);
-				opacity: 0;
-				pointer-events: none;
-				transform: translateY(-8px);
-				transition: opacity 0.22s ease, transform 0.22s ease;
-			}
-
-			.site-header.menu-open .site-nav {
-				opacity: 1;
-				pointer-events: auto;
-				transform: translateY(10px);
-			}
-
-			.site-nav ul {
-				flex-direction: column;
-				align-items: flex-start;
-				padding: 18px 20px 20px;
-				gap: 14px;
-			}
-
-			.header-tools {
-				justify-self: end;
-			}
-
-			.hero {
-				min-height: 680px;
-			}
-
-			.hero-scene .shelf.left {
-				left: 6%;
-				width: 36%;
-			}
-
-			.hero-scene .window {
-				width: 44%;
-			}
-
-			.hero-scene .island {
-				width: 350px;
-			}
-
-			.hero-scene .family {
-				right: 14%;
-			}
-
-			.about-inner {
-				justify-content: flex-start;
-			}
-
-			.card-grid {
-				grid-template-columns: 1fr;
-			}
-		}
-
-		@media (max-width: 640px) {
-			:root {
-				--container: calc(100vw - 28px);
-			}
-
-			.brand {
-				font-size: 0.96rem;
-			}
-
-			.header-tools {
-				gap: 10px;
-			}
-
-			.hero {
-				min-height: 620px;
-			}
-
-			.hero-content {
-				width: calc(100vw - 32px);
-			}
-
-			.hero-content h1 {
-				font-size: 2.4rem;
-			}
-
-			.hero-content p {
-				font-size: 1rem;
-			}
-
-			.hero-scene .plush-figure {
-				left: -24px;
-				bottom: 84px;
-				transform: scale(0.84);
-			}
-
-			.hero-scene .checkout {
-				left: 14px;
-				bottom: 104px;
-				transform: scale(0.72);
-				transform-origin: left bottom;
-			}
-
-			.hero-scene .island {
-				width: 270px;
-				height: 144px;
-				bottom: 116px;
-			}
-
-			.hero-scene .toy-stack {
-				bottom: 182px;
-				transform: translateX(-50%) scale(0.8);
-			}
-
-			.hero-scene .family {
-				right: 4%;
-				bottom: 96px;
-				transform: scale(0.82);
-				transform-origin: bottom right;
-			}
-
-			.hero-scene .shelf.left {
-				top: 72px;
-				left: 14px;
-				width: 44%;
-				height: 40%;
-			}
-
-			.hero-scene .shelf.right {
-				top: 92px;
-				right: 12px;
-				width: 28%;
-			}
-
-			.hero-scene .window {
-				top: 54px;
-				width: 48%;
-				height: 34%;
-			}
-
-			.about {
-				min-height: auto;
-			}
-
-			.about-inner,
-			.solutions,
-			.site-footer {
-				padding-left: 0;
-				padding-right: 0;
-			}
-
-			.about-inner {
-				padding: 66px 0;
-			}
-
-			.footer-inner {
-				grid-template-columns: 1fr;
-				gap: 24px;
-			}
-
-			.footer-inner > :last-child {
-				grid-column: auto;
-			}
-
-			.subscribe-row {
-				flex-direction: column;
-			}
-
-			.subscribe-row button {
-				padding: 12px 16px;
-			}
-
-			.footer-bottom {
-				flex-direction: column;
-				align-items: center;
-				gap: 8px;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOTSSS/DOTSSS CHILDREN'S MUSEUM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #006432;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-icons svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background:  url('static/home/14.png') center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+        }
+
+        /* About Section */
+        .about {
+            color: white;
+            padding: 80px 40px;
+            background-image: url('static/home/12.png');
+            background-size: cover;
+            background-position: center;
+            height: 800px;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            
+            border-radius: 8px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 40px;
+            background-color: white;
+        }
+
+        .services h2 {
+            font-size: 28px;
+            color: #006432;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .service-card {
+            text-align: center;
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            color: #006432;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .service-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d4a36;
+            color: white;
+            padding: 60px 40px 20px;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 2;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .newsletter-form button {
+            padding: 10px 20px;
+            background-color: white;
+            color: #0d4a36;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer-bottom a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
 </head>
 <body>
-	<header class="site-header" id="top">
-		<div class="header-inner">
-			<a class="brand" href="#top">DOTSSS/DOTSSS CHILDREN'S MUSEUM</a>
-			<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
-				<span></span>
-			</button>
-			<nav class="site-nav" aria-label="Primary navigation">
-				<ul>
-					<li><a href="#top">Home</a></li>
-					<li><a href="#about">Plush</a></li>
-					<li><a href="#solutions">Goodies</a></li>
-					<li><a href="#solutions">Custom</a></li>
-					<li><a href="#about">Museum</a></li>
-					<li><a href="#footer">Shop</a></li>
-				</ul>
-			</nav>
-			<div class="header-tools" aria-hidden="true">
-				<svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<circle cx="11" cy="11" r="6"></circle>
-					<path d="M20 20l-3.2-3.2"></path>
-				</svg>
-				<svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 8h14"></path>
-					<path d="M7 8V6a5 5 0 0 1 10 0v2"></path>
-					<path d="M6 8l1 10h10l1-10"></path>
-				</svg>
-				<svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M7 7h13l-1.3 7.2a2 2 0 0 1-2 1.6H10a2 2 0 0 1-2-1.6L6 4H3"></path>
-					<circle cx="10" cy="19" r="1.3"></circle>
-					<circle cx="17" cy="19" r="1.3"></circle>
-				</svg>
-			</div>
-		</div>
-	</header>
+    <header>
+        <div class="logo">DOTSSS/DOTSSS CHILDREN'S MUSEUM</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="plush.html">PLUSH</a></li>
+                <li><a href="goods.html">GOODIES</a></li>
+                <li><a href="custom.html">CUSTOM</a></li>
+                <li><a href="museum.html">MUSEUM</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+        </div>
+    </header>
 
-	<main>
-		<section class="hero" aria-label="Hero section">
-			<div class="hero-scene" aria-hidden="true">
-				<div class="ceiling-pipe"></div>
-				<div class="window"></div>
-				<div class="shelf left"></div>
-				<div class="shelf right"></div>
-				<div class="product-dots"></div>
-				<div class="plush-figure"></div>
-				<div class="checkout"></div>
-				<div class="island"></div>
-				<div class="toy-stack"></div>
-				<div class="family">
-					<div class="adult"></div>
-					<div class="child"></div>
-				</div>
-			</div>
-			<div class="hero-content">
-				<h1>Powering Meaningful<br>Retail</h1>
-				<p>From the first shelf to future success, we help you launch, support your team, and grow with purpose.</p>
-			</div>
-		</section>
+    <section class="hero">
+        <h1>Powering Meaningful Retail</h1>
+        <p>From the first shelf to future success—we're here to help you start, support your team, and grow together.</p>
+    </section>
 
-		<section class="about" id="about">
-			<div class="about-architecture" aria-hidden="true">
-				<div class="arc"></div>
-				<div class="pillars"></div>
-				<div class="steps"></div>
-			</div>
-			<div class="about-inner">
-				<div class="about-copy">
-					<span class="eyebrow">About</span>
-					<h2>Dotsss Children's Museum &amp; Dotsss Supplies</h2>
-					<p>Dotsss is an independent children's museum built around discovery, play, and thoughtful community programming. Our retail arm extends that mission with products designed to feel useful, joyful, and easy to bring into real-world stores.</p>
-					<p>The result is a compact wholesale collection shaped for museums, family spaces, and gift environments: custom programs, ready-to-merchandise sets, and dependable everyday goods that support both revenue and experience.</p>
-				</div>
-			</div>
-		</section>
+    <section class="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>Dotsss Children's Museum & Dotsss Supplies</h2>
+                <p>Dotsss is China's first independent children's museum. As a self-sustaining institution, we operate without reliance on grants �?which is why our retail solutions and partnerships play a vital role in supporting our mission.</p>
+                <p>The name Dotsss reflects our core purpose: connecting ideas, knowledge, and experiences to inspire exploration. Through Dotsss Supplies, we extend this mission globally by offering tailored retail solutions to museums and stores worldwide. Designed for communities and created with care, our products empower stores to serve families with both purpose and heart.</p>
+            </div>
+            <div class="about-image"></div>
+        </div>
+    </section>
 
-		<section class="solutions" id="solutions">
-			<div class="solutions-inner">
-				<h2>Retail Solutions Built to Drive In-Store Results</h2>
-				<div class="card-grid">
-					<article class="solution-card">
-						<div class="card-visual visual-merch" aria-hidden="true">
-							<!-- <div class="plush-body"></div>
-							<div class="plush-face"></div>
-							<div class="lanyard"></div>
-							<div class="sock"></div>
-							<div class="patches"></div> -->
-							<img src="./static/0101-1.png" alt="" width="100%" height="100%">
-						</div>
-						<h3>Custom Products</h3>
-						<p>Build recognition and long-term customer recall with merchandise tailored to your own story.</p>
-					</article>
-					<article class="solution-card">
-						<div class="card-visual visual-ready" aria-hidden="true">
-							<div class="confetti"></div>
-							<div class="board"></div>
-							<div class="gift-row"></div>
-						</div>
-						<h3>Ready-to-Sell Sets</h3>
-						<p>Launch incremental revenue with curated assortments that arrive organized and display-ready.</p>
-					</article>
-					<article class="solution-card">
-						<div class="card-visual visual-shelf" aria-hidden="true">
-							<div class="plush-row"></div>
-							<div class="rack"></div>
-							<div class="toy-row"></div>
-						</div>
-						<h3>Standardized Goods</h3>
-						<p>Rely on proven in-store staples with balanced assortment planning and easy replenishment.</p>
-					</article>
-				</div>
-			</div>
-		</section>
-	</main>
+    <section class="services">
+        <h2>Retail Solutions Built to Drive In-Store Results</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <img src="static/home/13.png" alt="Custom Products">
+                <h3>Custom Products</h3>
+                <p>Build brand recognition and long-term customer recall</p>
+            </div>
+            <div class="service-card">
+                <img src="static/home/15.png" alt="Ready-to-Sell Sets">
+                <h3>Ready-to-Sell Sets</h3>
+                <p>Generate incremental revenue with zero setup effort</p>
+            </div>
+            <div class="service-card">
+                <img src="static/home/16.png" alt="Standardized Goods">
+                <h3>Standardized Goods</h3>
+                <p>Proven assortments designed for strong in-store sell-through</p>
+            </div>
+        </div>
+    </section>
 
-	<footer class="site-footer" id="footer">
-		<div class="footer-inner">
-			<section class="footer-col">
-				<h4>Contact</h4>
-				<div class="contact-line">
-					<span>1</span>
-					<p>450 112th Ave NE, Bellevue, WA 98004</p>
-				</div>
-				<div class="contact-line">
-					<span>2</span>
-					<p>supplies@dotsss.com</p>
-				</div>
-				<div class="contact-line">
-					<span>3</span>
-					<p>+1 (206) 495-5988</p>
-				</div>
-			</section>
-
-			<section class="footer-col">
-				<h4>Mission</h4>
-				<p>Empower stores that spark connection and discovery through thoughtful products and true partnership.</p>
-			</section>
-
-			<section class="footer-col">
-				<h4>Quick Links</h4>
-				<ul class="footer-list">
-					<li><a href="#top">Home</a></li>
-					<li><a href="#about">Plush</a></li>
-					<li><a href="#solutions">Goodies</a></li>
-					<li><a href="#solutions">Custom</a></li>
-					<li><a href="#about">Museum</a></li>
-					<li><a href="#footer">Shop</a></li>
-				</ul>
-			</section>
-
-			<section class="footer-col">
-				<h4>Join Our Wholesale List</h4>
-				<label for="email">Get product updates, trade show news, and seasonal picks.</label>
-				<form class="subscribe-row" id="subscribe-form">
-					<input id="email" type="email" name="email" placeholder="Email" autocomplete="email">
-					<button type="submit">Subscribe</button>
-				</form>
-				<p id="subscribe-message">Already have an account? log in</p>
-			</section>
-		</div>
-
-		<div class="footer-bottom">
-			<span>@2026 Dotsss</span>
-			<span>Privacy policy</span>
-		</div>
-
-		<a class="back-to-top" href="#top" aria-label="Back to top">
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M18 14l-6-6-6 6"></path>
-			</svg>
-		</a>
-	</footer>
-
-	<script>
-		const header = document.querySelector('.site-header');
-		const toggle = document.querySelector('.menu-toggle');
-		const navLinks = document.querySelectorAll('.site-nav a');
-		const cards = document.querySelectorAll('.solution-card');
-		const form = document.querySelector('#subscribe-form');
-		const message = document.querySelector('#subscribe-message');
-
-		const syncHeader = () => {
-			header.classList.toggle('is-scrolled', window.scrollY > 8);
-		};
-
-		syncHeader();
-		window.addEventListener('scroll', syncHeader, { passive: true });
-
-		toggle.addEventListener('click', () => {
-			const isOpen = header.classList.toggle('menu-open');
-			toggle.setAttribute('aria-expanded', String(isOpen));
-		});
-
-		navLinks.forEach((link) => {
-			link.addEventListener('click', () => {
-				header.classList.remove('menu-open');
-				toggle.setAttribute('aria-expanded', 'false');
-			});
-		});
-
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('is-visible');
-					observer.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.18 });
-
-		cards.forEach((card, index) => {
-			card.style.transitionDelay = `${index * 120}ms`;
-			observer.observe(card);
-		});
-
-		form.addEventListener('submit', (event) => {
-			event.preventDefault();
-			const email = form.email.value.trim();
-
-			if (!email) {
-				message.textContent = 'Please enter an email address.';
-				return;
-			}
-
-			message.textContent = `Thanks, ${email} has been added.`;
-			form.reset();
-		});
-	</script>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>450 112th Ave NE, Bellevue, WA 98004</p>
+                <p>supplies@dotsss.com</p>
+                <p>+1 (206) 495-5988</p>
+            </div>
+            <div class="footer-section">
+                <h4>Mission</h4>
+                <p>Empower stores that spark connection and discovery—through thoughtful products and true partnership.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="plush.html">PLUSH</a></li>
+                    <li><a href="goods.html">GOODIES</a></li>
+                    <li><a href="custom.html">CUSTOM</a></li>
+                    <li><a href="museum.html">MUSEUM</a></li>
+                    <li><a href="shop.html">SHOP</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Join Our Wholesale List</h4>
+                <p>Get product updates, trade show news & seasonal picks.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email">
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p style="margin-top: 15px;">Already have an account? <a href="#">Login</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>©2024 Dotsss · <a href="#">Privacy policy</a></p>
+        </div>
+    </footer>
 </body>
 </html>

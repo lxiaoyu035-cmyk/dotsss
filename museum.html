@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission - DOTSSS/DOTSSS CHILDREN'S MUSEUM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #006432;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-icons svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #006432;
+            padding: 120px 40px 60px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 60px 40px;
+            background-color: white;
+        }
+
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .gallery-item {
+            background-color: #f5f5f5;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .museum-image {
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            border-radius: 8px;
+        }
+
+        /* Description Section */
+        .description {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .description p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        /* Museum Types Section */
+        .museum-types {
+            padding: 0 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .museum-card {
+            background-color: #006432;
+            color: white;
+            padding: 60px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .museum-card h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .museum-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .museum-card.reverse {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .museum-card.reverse .content {
+            order: 2;
+        }
+
+        .museum-card.reverse .image {
+            order: 1;
+        }
+
+
+
+        /* Footer */
+        footer {
+            background-color: #0d4a36;
+            color: white;
+            padding: 60px 40px 20px;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            line-height: 2;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .newsletter-form button {
+            padding: 10px 20px;
+            background-color: white;
+            color: #0d4a36;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .footer-bottom a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">DOTSSS/DOTSSS CHILDREN'S MUSEUM</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="plush.html">PLUSH</a></li>
+                <li><a href="goods.html">GOODIES</a></li>
+                <li><a href="custom.html">CUSTOM</a></li>
+                <li><a href="museum.html">MUSEUM</a></li>
+                <li><a href="shop.html">SHOP</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Mission</h1>
+        <p>At Dotsss, we spark play and discovery—not just for children, but for the communities that raise them. By bringing people together across backgrounds, we help children explore a world that's richer, more connected, and full of all possibility.</p>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="static/museum/18.png" alt="Museum activity 1">
+            </div>
+            <div class="gallery-item">
+                <img src="static/museum/19.png" alt="Museum activity 2">
+            </div>
+        </div>
+    </section>
+
+    <section class="description">
+        <p>Dotsss is China's first independent children's museum, founded to explore new ways of supporting children's growth through creativity and collaboration. The name reflects our mission—connecting ideas, knowledge, and experiences to inspire exploration.</p>
+    </section>
+
+    <section class="museum-types">
+        <div class="museum-card">
+            <div class="content">
+                <h2>Destination Museums</h2>
+                <p>Large-Scale, Comprehensive Family Venues. The expansive museums offer a variety of activities, making them ideal one-stop destinations for families. Children can spend an entire day or more exploring exhibits and attractions, providing an immersive and engaging experience for all ages.</p>
+            </div>
+            <div class="museum-image" style="background-image: url('static/museum/20.png');"></div>
+        </div>
+
+        <div class="museum-card reverse">
+            <div class="content">
+                <h2>Community Museums</h2>
+                <p>Smaller, Flexible Spaces for Local Engagement. We bring high-quality museum experiences to local communities through smaller, adaptable community museums. These spaces are quicker to build, feature rotating exhibits, and provide creativity with an accessible, everyday way to engage with the content of larger destination museums.</p>
+            </div>
+            <div class="museum-image" style="background-image: url('static/museum/21.png');"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>450 112th Ave NE, Bellevue, WA 98004</p>
+                <p>supplies@dotsss.com</p>
+                <p>+1 (206) 495-5988</p>
+            </div>
+            <div class="footer-section">
+                <h4>Mission</h4>
+                <p>Empower stores that spark connection and discovery—through thoughtful products and true partnership.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="plush.html">PLUSH</a></li>
+                    <li><a href="goods.html">GOODIES</a></li>
+                    <li><a href="custom.html">CUSTOM</a></li>
+                    <li><a href="museum.html">MUSEUM</a></li>
+                    <li><a href="shop.html">SHOP</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Join Our Wholesale List</h4>
+                <p>Get product updates, trade show news & seasonal picks.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email">
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p style="margin-top: 15px;">Already have an account? <a href="#">Login</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>©2024 Dotsss · <a href="#">Privacy policy</a></p>
+        </div>
+    </footer>
+</body>
+</html>
